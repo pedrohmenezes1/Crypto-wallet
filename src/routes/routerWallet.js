@@ -1,11 +1,8 @@
 import { Router } from 'express';
-import ControllerWallet from '../app/controllers/ControllerWallet';
+import ControllerWallet from '../app/controllers/controllerWallet';
 
 const routerWallet = Router();
 
-routerWallet.get('/wallet/', ControllerWallet.-);
-routerWallet.post('/wallet/', ControllerWallet.-);
-routerWallet.put('/wallet/', ControllerWallet.-);
-routerWallet.delete('/wallet/', ControllerWallet.-);
+routerWallet.get('/wallet', ControllerWallet.listWallet);
 
 export default routerWallet;
