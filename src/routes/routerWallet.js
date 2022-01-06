@@ -7,4 +7,6 @@ routerWallet.get('/wallet', ControllerWallet.listWallet);
 
 routerWallet.post('/wallet', ControllerWallet.createWallet);
 
+routerWallet.get('/wallet/:address', ControllerWallet.listOneWallet);
+
 export default routerWallet;

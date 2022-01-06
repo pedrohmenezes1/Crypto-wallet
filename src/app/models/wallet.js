@@ -5,10 +5,10 @@ class Wallet extends Model {
     super.init(
       {
         address: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV1,
           allowNull: false,
           primaryKey: true,
-          autoIncrement: true,
         },
         name: {
           type: DataTypes.STRING,

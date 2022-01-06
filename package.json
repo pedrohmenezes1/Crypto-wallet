@@ -10,6 +10,7 @@
   "author": "pedro.hmenezes",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "bcrypt-nodejs": "^0.0.3",
     "config": "^3.3.6",
     "cpf-cnpj-validator": "^1.0.3",
     "express": "^4.17.2",

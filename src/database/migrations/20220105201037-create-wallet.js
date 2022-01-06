@@ -2,11 +2,9 @@ module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('Wallet', {
       address: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(36),
 
         allowNull: false,
-
-        autoIncrement: true,
 
         primaryKey: true,
       },
