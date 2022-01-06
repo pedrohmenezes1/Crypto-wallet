@@ -18,15 +18,13 @@ module.exports = {
       },
 
       cpf: {
-        type: Sequelize.STRING(14),
-
-        unique: true,
+        type: Sequelize.STRING(100),
 
         allowNull: false,
       },
 
       birthdate: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.STRING(100),
 
         allowNull: false,
       },

@@ -5,4 +5,6 @@ const routerWallet = Router();
 
 routerWallet.get('/wallet', ControllerWallet.listWallet);
 
+routerWallet.post('/wallet', ControllerWallet.createWallet);
+
 export default routerWallet;

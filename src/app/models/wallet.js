@@ -4,16 +4,18 @@ class Wallet extends Model {
   static init(sequelize) {
     super.init(
       {
+        address: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          primaryKey: true,
+          autoIncrement: true,
+        },
         name: {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
-            },
-            min: {
-              args: [7],
-              msg: 'Esse campo deve ter pelo menos 7 caracteres',
             },
           },
         },
@@ -25,9 +27,6 @@ class Wallet extends Model {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
             },
-            isNumeric: {
-              msg: 'Preencher apenas com números',
-            },
           },
         },
         birthdate: {
@@ -36,9 +35,6 @@ class Wallet extends Model {
           validate: {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
-            },
-            isNumeric: {
-              msg: 'Preencher apenas com números',
             },
           },
         },
