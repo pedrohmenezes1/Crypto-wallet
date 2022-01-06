@@ -1,17 +1,17 @@
 import { Model, DataTypes } from 'sequelize';
 
-class Wallet extends Model {
+class Coins extends Model {
   static init(sequelize) {
     super.init(
       {
-        address: {
+        id: {
           type: DataTypes.UUID,
           defaultValue: DataTypes.UUIDV1,
           allowNull: false,
           primaryKey: true,
         },
-        name: {
-          type: DataTypes.STRING,
+        coin: {
+          type: DataTypes.ENUM(['BTC', 'ETH', 'USD', 'BRL']),
           allowNull: false,
           validate: {
             notEmpty: {
@@ -19,18 +19,12 @@ class Wallet extends Model {
             },
           },
         },
-
-        cpf: {
+        fullname: {
           type: DataTypes.STRING,
           allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'Esse campo não pode ser vazio!',
-            },
-          },
         },
-        birthdate: {
-          type: DataTypes.STRING,
+        amount: {
+          type: DataTypes.DOUBLE,
           allowNull: false,
           validate: {
             notEmpty: {
@@ -41,7 +35,7 @@ class Wallet extends Model {
       },
       {
         sequelize,
-        tableName: 'wallet',
+        tableName: 'coins',
       }
     );
     return this;
@@ -49,10 +43,10 @@ class Wallet extends Model {
 
   // Associações
   static associate(models) {
-    this.hasMany(models.Coins, {
-      foreignKey: 'coins_id',
+    this.belongsTo(models.Wallet, {
+      foreignKey: 'coin_id',
       as: 'coins',
     });
   }
 }
-export default Wallet;
+export default Coins;

@@ -1,6 +1,5 @@
 import * as Yup from 'yup'; // Validação
 import moment from 'moment';
-import { UUIDV1 } from 'sequelize';
 import Wallet from '../models/wallet'; // Modelos
 
 class ControllerWallet {
@@ -81,8 +80,7 @@ class ControllerWallet {
       });
       return res.status(200).send({ listingWallet });
     } catch (erro) {
-      console.log(erro);
-      return res.status(400).send({ error: 'Erro ao listar um carteira ' });
+      return res.status(404).send({ error: 'Erro ao listar um carteira ' });
     }
   }
 }
