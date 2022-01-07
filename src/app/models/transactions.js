@@ -1,15 +1,11 @@
 import { Model, DataTypes } from 'sequelize';
 
-class Coins extends Model {
+class Transactions extends Model {
   static init(sequelize) {
     super.init(
       {
-        coin: {
-          type: DataTypes.STRING(),
-          allowNull: false,
-        },
-        fullname: {
-          type: DataTypes.STRING(),
+        value: {
+          type: DataTypes.DOUBLE,
           allowNull: false,
         },
         amount: {
@@ -19,7 +15,7 @@ class Coins extends Model {
       },
       {
         sequelize,
-        tableName: 'coins',
+        tableName: 'transactions',
       }
     );
     return this;
@@ -27,12 +23,18 @@ class Coins extends Model {
 
   // Associações
   static associate(models) {
-    this.belongsTo(models.Wallet, {
-      foreignKey: 'wallet_address',
+    this.belongsTo(models.Coins, {
+      foreignKey: 'coins_address',
+      as: 'coinsAdresses',
     });
-    this.hasMany(models.Coins, {
-      foreignKey: 'address',
+    this.belongsTo(models.Wallet, {
+      foreignKey: 'sendTo',
+      as: 'sendAdresses',
+    });
+    this.belongsTo(models.Wallet, {
+      foreignKey: 'receiveFrom',
+      as: 'receiveAdresses',
     });
   }
 }
-export default Coins;
+export default Transactions;

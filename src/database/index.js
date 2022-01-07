@@ -2,9 +2,11 @@ import Sequelize from 'sequelize';
 import DatabaseConfig from '../config/database';
 
 import Wallet from '../app/models/wallet';
+import Coins from '../app/models/coins';
+import Transactions from '../app/models/transactions';
 
 // Buffer
-const models = [Wallet];
+const models = [Wallet, Coins, Transactions];
 
 class DataBase {
   constructor() {

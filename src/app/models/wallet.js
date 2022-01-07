@@ -19,7 +19,6 @@ class Wallet extends Model {
             },
           },
         },
-
         cpf: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -49,10 +48,13 @@ class Wallet extends Model {
 
   // Associações
   static associate(models) {
-    this.hasMany(models.Coins, {
-      foreignKey: 'coins_id',
-      as: 'coins',
-    });
+    this.belongsToMany(
+      models.Coins,
+      { through: models.Transactions },
+      {
+        foreignKey: 'wallet_address',
+      }
+    );
   }
 }
 export default Wallet;

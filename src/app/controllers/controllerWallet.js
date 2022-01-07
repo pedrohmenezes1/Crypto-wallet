@@ -1,16 +1,18 @@
 import * as Yup from 'yup'; // Validação
 import moment from 'moment';
-import Wallet from '../models/wallet'; // Modelos
+import Wallet from '../models/wallet'; // Modelo carteira
+import coins from '../models/coins'; // Modelo moeda
 
 class ControllerWallet {
   // Listar todos
   async listWallet(req, res) {
     try {
-      const listingWallet = await Wallet.findAll({
-        attributes: ['name', 'cpf', 'birthdate', 'address'],
+      const wallet = await Wallet.findAll({
+        include: [coins],
       });
-      return res.status(200).send({ listingWallet });
+      return res.status(200).send({ wallet });
     } catch (erro) {
+      console.log(erro);
       return res
         .status(400)
         .send({ error: 'Erro ao carregar lista de carteiras ' });
@@ -62,10 +64,19 @@ class ControllerWallet {
     }
 
     try {
-      const newWallet = req.body;
-      const Wallets = await Wallet.create(newWallet);
-      return res.status(201).send({ Wallets });
+      const { address, name, cpf, birthdate } = req.body;
+      const wallet = await Wallet.create(
+        {
+          address,
+          name,
+          cpf,
+          birthdate,
+        },
+        { include: [coins] }
+      );
+      return res.status(201).send({ wallet });
     } catch (error) {
+      console.log(error);
       return res
         .status(400)
         .send({ error: 'Erro ao registrar uma nova carteira' });
@@ -75,13 +86,37 @@ class ControllerWallet {
   async listOneWallet(req, res) {
     const { address } = req.params;
     try {
-      const listingWallet = await Wallet.findOne({
-        where: { address: String(address) },
-      });
-      return res.status(200).send({ listingWallet });
+      const wallet = await Wallet.findByPk(address);
+      return res.status(200).send({ wallet });
     } catch (erro) {
-      return res.status(404).send({ error: 'Erro ao listar um carteira ' });
+      return res.status(404).send({ error: 'Erro ao listar uma carteira ' });
     }
   }
+
+  /*  async addCoins(req, res) {
+    const { address } = req.params;
+    const { coin, amount } = req.body;
+    let fullname = req.body;
+    const newCoin = { coin, fullname, amount, wallet_address: String(address) };
+    try {
+      const addCoin = await Coins.create(newCoin);
+      if (coin === 'BTC') {
+        fullname = 'Bitcoin';
+      }
+      if (coin === 'ETH') {
+        fullname = 'Etherium';
+      }
+      if (coin === 'BRL') {
+        fullname = 'Real';
+      }
+      if (coin === 'USD') {
+        fullname = 'Dolar';
+      }
+      return res.status(201).send({ addCoin });
+    } catch (erro) {
+      console.log(erro);
+      return res.status(404).send({ error: 'Erro ao adicionar coins' });
+    }
+  } */
 }
 export default new ControllerWallet();

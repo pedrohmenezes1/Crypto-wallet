@@ -1,29 +1,24 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable('Wallet', {
+    queryInterface.createTable('wallet', {
       address: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true,
+        unique: true,
       },
       name: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       cpf: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING,
+        unique: true,
         allowNull: false,
       },
       birthdate: {
-        type: Sequelize.STRING(100),
+        type: Sequelize.STRING,
         allowNull: false,
-      },
-      coin_id: {
-        allowNull: false,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        references: { model: 'Wallet', key: 'id' },
       },
       created_at: {
         type: Sequelize.DATE,
@@ -35,5 +30,5 @@ module.exports = {
       },
     }),
 
-  down: (queryInterface) => queryInterface.dropTable('Wallet'),
+  down: (queryInterface) => queryInterface.dropTable('wallet'),
 };
