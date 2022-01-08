@@ -1,10 +1,16 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('transactions', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       coin_address: {
         type: Sequelize.UUID,
         allowNull: false,
-        references: { model: 'coins', key: 'address' },
+        references: { model: 'coins', key: 'wallet_address' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
@@ -19,12 +25,16 @@ module.exports = {
         type: Sequelize.DOUBLE,
         allowNull: false,
       },
-      datetime: {
-        type: Sequelize.DATE,
+      quoteTo: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      amount: {
-        type: Sequelize.DOUBLE,
+      currentCoin: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      datetime: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       sendTo: {
@@ -40,6 +50,10 @@ module.exports = {
         references: { model: 'wallet', key: 'address' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      curentCotation: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
       },
       created_at: {
         type: Sequelize.DATE,

@@ -1,6 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable('coins', {
+      id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       wallet_address: {
         type: Sequelize.UUID,
         allowNull: false,

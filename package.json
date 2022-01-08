@@ -9,16 +9,20 @@
   },
   "author": "pedro.hmenezes",
   "dependencies": {
+    "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "bcrypt-nodejs": "^0.0.3",
     "config": "^3.3.6",
     "cpf-cnpj-validator": "^1.0.3",
     "express": "^4.17.2",
+    "fetch": "^1.1.0",
     "moment": "^2.29.1",
     "mysql2": "^2.3.3",
     "path": "^0.12.7",
+    "requests": "^0.3.0",
     "sequelize": "^6.12.4",
     "sequelize-cli": "^6.3.0",
+    "whatwg-fetch": "^3.6.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

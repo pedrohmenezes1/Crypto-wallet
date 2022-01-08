@@ -48,13 +48,14 @@ class Wallet extends Model {
 
   // Associações
   static associate(models) {
-    this.belongsToMany(
-      models.Coins,
-      { through: models.Transactions },
-      {
-        foreignKey: 'wallet_address',
-      }
-    );
+    this.hasMany(models.Coins, {
+      foreignKey: 'wallet_address',
+      as: 'coinsAddress',
+    });
+    this.hasMany(models.Transactions, {
+      foreignKey: 'wallet_address',
+      as: 'transactionsAddress',
+    });
   }
 }
 export default Wallet;

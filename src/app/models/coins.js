@@ -30,8 +30,8 @@ class Coins extends Model {
     this.belongsTo(models.Wallet, {
       foreignKey: 'wallet_address',
     });
-    this.hasMany(models.Coins, {
-      foreignKey: 'address',
+    this.hasMany(models.Transactions, {
+      foreignKey: 'coin_address',
     });
   }
 }

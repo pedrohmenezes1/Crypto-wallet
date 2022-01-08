@@ -9,4 +9,6 @@ routerWallet.post('/wallet', ControllerWallet.createWallet);
 
 routerWallet.get('/wallet/:address', ControllerWallet.listOneWallet);
 
+routerWallet.delete('/wallet/:address', ControllerWallet.deleteOneWallet);
+
 export default routerWallet;
