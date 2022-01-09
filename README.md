@@ -19,6 +19,8 @@ Tabela de conteúdos
    * [Começando](#começando)
    * [Pré-requisitos](#pré-requisitos)
    * [Dependências](#dependências)
+   * [Instalação](#instalação)
+   * [Rest-Api](#rest-api)
 <!--te-->
 
 Começando
@@ -80,7 +82,7 @@ Pré-requisitos
   yarn dev
   ```
   
-  Rest API
+  Rest Api
   =========
   ### Métodos
   
