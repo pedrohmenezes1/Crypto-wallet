@@ -7,6 +7,8 @@ routerWallet.get('/wallet', ControllerWallet.listWallet);
 
 routerWallet.post('/wallet', ControllerWallet.createWallet);
 
+routerWallet.put('/wallet/:address', ControllerWallet.addCoins);
+
 routerWallet.get('/wallet/:address', ControllerWallet.listOneWallet);
 
 routerWallet.delete('/wallet/:address', ControllerWallet.deleteOneWallet);

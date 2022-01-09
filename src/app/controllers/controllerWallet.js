@@ -1,7 +1,9 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable prefer-const */
 import * as Yup from 'yup'; // Validação
 import moment from 'moment';
 import { axios } from 'axios';
+import { Op } from 'sequelize';
 import Wallet from '../models/wallet'; // Modelo carteira
 import Transactions from '../models/transactions';
 import Coins from '../models/coins';
@@ -14,13 +16,57 @@ cotactions = cotactions.json();
 let cotaction_euro = cotactions.EURBRL.bid; */
 /* let cotaction_bitcoinbr = cotactions.BTCBRL.bid; */
 
-const { data } = axios.all('https://economia.awesomeapi.com.br/last/BTC-BRL');
+const { data } = axios('https://economia.awesomeapi.com.br/last/BTC-BRL');
 const test = data.json();
 console.log(test);
 
 class ControllerWallet {
   // Listar todos
   async listWallet(req, res) {
+    const {
+      name_req,
+      cpf_req,
+      birthdate_initial,
+      birthdate_end,
+      amount_req,
+      coin_req,
+      created_at_initial,
+      created_at_end,
+      updated_at_inital,
+      updated_at_end,
+    } = req.query;
+    const where = {};
+    // Filtrar nome
+    name_req ? (where.name_req = {}) : null;
+    name_req ? (where.name[Op.eq] = name_req) : null;
+
+    // Filtrar CPF
+    cpf_req ? (where.cpf = {}) : null;
+    cpf_req ? (where.cpf[Op.eq] = cpf_req) : null;
+
+    // Filtrar por data de nascimento ordem crescente e decrescente
+    birthdate_initial || birthdate_end ? (where.birthdate = {}) : null;
+    birthdate_initial ? (where.birthdate[Op.gte] = birthdate_initial) : null;
+    birthdate_end ? (where.birthdate[Op.lte] = birthdate_end) : null;
+
+    // Filtrar por quantidade
+    amount_req ? (where.amount = {}) : null;
+    amount_req ? (where.amount[Op.eq] = amount_req) : null;
+
+    // Filtrar por moeda
+    coin_req ? (where.coin = {}) : null;
+    coin_req ? (where.coin[Op.eq] = coin_req) : null;
+
+    // Filtrar por data de criação ordem crescente e decrescente
+    created_at_initial || created_at_end ? (where.created_at = {}) : null;
+    created_at_initial ? (where.created_at[Op.gte] = created_at_initial) : null;
+    created_at_end ? (where.created_at[Op.lte] = created_at_end) : null;
+
+    // Filtrar por data de atualização ordem crescente e decrescente
+    updated_at_inital || updated_at_end ? (where.updated_at = {}) : null;
+    updated_at_inital ? (where.updated_at[Op.gte] = updated_at_inital) : null;
+    updated_at_end ? (where.updated_at[Op.lte] = updated_at_end) : null;
+
     try {
       const wallet = await Wallet.findAll();
       return res.status(200).send({ wallet });
@@ -33,7 +79,7 @@ class ControllerWallet {
 
   async createWallet(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string('Erro: Necessário preencher o campo nome!')
+      name_req: Yup.string('Erro: Necessário preencher o campo nome!')
         .required('Erro: Necessário preencher o campo nome!')
         .min(7, 'campo nome tem que ter mais de 7 caracteres'),
       cpf: Yup.string('Erro: Necessário preencher o campo cpf com números!')
@@ -76,10 +122,10 @@ class ControllerWallet {
     }
 
     try {
-      const { address, name, cpf, birthdate } = req.body;
+      const { address, name_req, cpf, birthdate } = req.body;
       const wallet = await Wallet.create({
         address,
-        name,
+        name_req,
         cpf,
         birthdate,
       });
@@ -123,7 +169,7 @@ class ControllerWallet {
       });
     }
     let { quoteTo, currentCoin, value } = req.body;
-    let { coin, fullname, amount } = req.body;
+    let { coin, fullname_req, amount } = req.body;
     try {
       await Transactions.create(
         { quoteTo, currentCoin, value },
@@ -138,17 +184,17 @@ class ControllerWallet {
         value *= cotaction_bitcoinbr;
 
         coin = 'BTC';
-        fullname = 'Bitcoin';
+        fullname_req = 'Bitcoin';
         amount = value;
         await Coins.create(
-          { coin, fullname, amount },
+          { coin, fullname_req, amount },
           {
             where: { wallet_address: String(wallet_address) },
           }
         );
         await Coins.Save();
       }
-      return res.status(201).send({ coin, fullname, amount });
+      return res.status(201).send({ coin, fullname_req, amount });
     } catch (erro) {
       console.log(erro);
       return res.status(404).send({ error: 'Erro ao adicionar coins' });
