@@ -89,7 +89,7 @@ Pré-requisitos
 |---|---|
 | `POST` | Utilizado para criar uma nova carteira. |
 
-+ Endpoint: [POST] http://localhost:3000/api/v1/wallet
++ 📙: [POST] http://localhost:3000/api/v1/wallet
 + Request (application/json)
 + Body
 
@@ -100,7 +100,7 @@ Pré-requisitos
             "birthdate": "05/01/2000"
           }
 
-## Respostas
+### Resposta
 
 | Código | Descrição |
 |---|---|
@@ -119,3 +119,83 @@ Pré-requisitos
           "updatedAt": "2022-01-04T23:24:51.690Z"
          }
 
+| Método | Descrição |
+|---|---|
+| `GET` | Utilizado para listar todas as carteiras. |
+
++ 📗: [GET] http://localhost:3000/api/v1/wallet
++ Request (application/json)
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `200` | (success).|
+| `400` | Erro ao carregar lista de carteiras.|
+
++ Retorno
+
+    ```json
+  {
+    "wallet": [
+      {
+        "name": "fulano da silva",
+        "cpf": "732.221.438-20",
+        "birthdate": "05/01/2000",
+        "address": "123e4567-e89b-12d3-a456-42661417401233",
+        "coins": [
+          {
+            "coin": "BTC",
+            "fullname": "Bitcoin",
+            "amont": 0.10003,
+            "transactions": [
+              {
+                "value": 0.0123110,
+                "datetime": "2022-01-04T23:24:51.690Z",
+                "sendTo": "123e4567-e89b-12d3-a456-42661417401233",
+                "receiveFrom": "123e4567-e89b-12d3-a456-42661417401233",
+                "currentCotation": 0.0123
+                }
+              ]
+            },
+            
+| Método | Descrição |
+|---|---|
+| `GET` | Utilizado para listar uma determinada carteira. |
+
++ 📗: [GET] http://localhost:3000/api/v1/wallet/:address
++ Request (application/json)
+
+### Resposta
+
+| Código | Descrição |
+|---|---|
+| `200` | (success).|
+| `400` | Erro ao listar uma carteira.|
+
++ Retorno
+    ```json
+  {
+    "name": "fulano da silva",
+    "cpf": "732.221.438-20",
+    "birthdate": "05/01/2000",
+    "address": "123e4567-e89b-12d3-a456-42661417401233",
+    "coins": [
+      {
+        "coin": "BTC",
+        "fullname": "Bitcoin",
+        "amont": 0.110002,
+        "transactions": [
+          {
+            "value": 0.0123110,
+            "datetime": "2022-01-04T23:24:51.690Z",
+             "sendTo": "123e4567-e89b-12d3-a456-42661417401233",
+            "receiveFrom": "123e4567-e89b-12d3-a456-42661417401233",
+            "currentCotation": 0.0123
+          }
+        ]
+      }
+     ]
+     "createdAt": "2022-01-04T23:24:51.690Z",
+     "updatedAt": "2022-01-07T23:24:51.690Z"
+    }
