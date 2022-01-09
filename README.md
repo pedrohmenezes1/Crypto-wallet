@@ -41,10 +41,81 @@ Pré-requisitos
  
  | Nome             | Versão                  |
 | :-----------------| :-------------------------|
-| Express             | 4.17.2
-| Mysql2           | 2.3.3
-| Sequelize             | 6.12.4
-| Yup             | 0.32.11
-| Axios             | 0.24.0
+| Express             |  4.17.2
+| Mysql2           |  2.3.3
+| Sequelize             |  6.12.4
+| Yup             |  0.32.11
+| Axios             |  0.24.0
+ | Moment          |  2.29.1
 
+ Instalação
+ =========
+ 
+ 1. Clone este repositório
+  ```bash
+   git clone https://github.com/pedrohmenezes1/Crypto-wallet
+   cd Crypto-wallet
+   ```
+ 2. Instalar o Yarn
+  ```bash
+  npm install --global yarn
+  ```
+  ```bash
+  yarn --version
+  ```
+ 3. Instalar todas as depedências do projeto
+  ```bash
+  yarn install
+  ```
+  4. Editar o arquivo database.js com o seu banco de dados
+
+  ```bash
+  ├── Crypto-wallet
+  |   ├── src
+  |   │   ├── config
+  |   │   │   ├── database.js
+  ```
+  5. Rodando a aplicação
+  ```bash
+  yarn dev
+  ```
+  
+  Rest API
+  =========
+  ### Métodos
+  
+  Requisições para a API devem seguir os padrões:
+| Método | Descrição |
+|---|---|
+| `POST` | Utilizado para criar uma nova carteira. |
+
++ Endpoint: [POST] http://localhost:3000/api/v1/wallet
++ Request (application/json)
++ Body
+
+     ```json
+          {
+            "name": "fulano da silva",
+            "cpf": "732.221.438-20",
+            "birthdate": "05/01/2000"
+          }
+
+## Respostas
+
+| Código | Descrição |
+|---|---|
+| `201` | Carteira criada com sucesso (success).|
+| `400` | Erro ao registrar uma nova carteira.|
+
++ Retorno
+
+     ```json
+        {
+          "address": "123e4567-e89b-12d3-a456-426614174000"
+          "name": "fulano da silva",
+          "cpf": "732.221.438-20",
+          "birthdate": "05/01/2000",
+          "createdAt": "2022-01-04T23:24:51.690Z",
+          "updatedAt": "2022-01-04T23:24:51.690Z"
+         }
 
