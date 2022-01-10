@@ -77,6 +77,33 @@ Pré-requisitos
   |   │   ├── config
   |   │   │   ├── database.js
   ```
+  ```js
+  {
+  dialect: 'mysql',
+  host: 'seu-host',
+  username: 'seu-username',
+  password: 'sua-senha',
+  database: 'sua-database',
+  define: {
+    // Atualização automatica de colunas timestamps e datetime
+    timestamps: true,
+    // Converte tabelas e colulas camelCase para sublinhado
+    underscored: true,
+    // Converte nomes de modelo camelCase para sublinhado
+    underscoredAll: true,
+  },
+};
+ ```
+ + Migrando database
+ ```bash
+ yarn sequelize db:migrate
+ ```
+ 
+ + Populando database
+ ```bash
+ yarn sequelize db:seed:all
+ ```
+ 
   5. Rodando a aplicação
   ```bash
   yarn dev
@@ -127,6 +154,17 @@ Pré-requisitos
 
 + 📗: [GET] http://localhost:3000/api/v1/wallet
 + Request (application/json)
++ Filtros :
+```bash
+?coin={coin}
+?name={name}
+?cpf={cpf}
+?birthdate_initial={data_inicial}&birthdate_end={data_final}
+?amount={amount}
+?created_at_initial={data_de_criação_inicial}&created_at_end={data_de_criação_final}
+?updatd_at_initial={data_de_updated_inicial}&updated_at_end={data_de_updated_final}
+```
+
 
 ### Resposta
 
