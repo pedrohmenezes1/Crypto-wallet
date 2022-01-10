@@ -168,7 +168,28 @@ class ControllerWallet {
   async listOneWallet(req, res) {
     const { address } = req.params;
     try {
-      const wallet = await Wallet.findByPk(address);
+      const wallet = await Wallet.findByPk(address, {
+        include: [
+          {
+            model: Coins,
+            attributes: ['coin', 'fullname', 'amount'],
+            as: 'coins',
+            include: [
+              {
+                model: Transactions,
+                attributes: [
+                  'value',
+                  'datetime',
+                  'send_to',
+                  'receive_from',
+                  'current_cotation',
+                ],
+                as: 'transactions',
+              },
+            ],
+          },
+        ],
+      });
       return res.status(200).send({ wallet });
     } catch (erro) {
       return res.status(404).send({ error: 'Erro ao listar uma carteira ' });
