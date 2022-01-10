@@ -4,33 +4,17 @@ class Coins extends Model {
   static init(sequelize) {
     super.init(
       {
-        id: {
-          type: DataTypes.UUID,
-          defaultValue: DataTypes.UUIDV1,
-          allowNull: false,
-          primaryKey: true,
-        },
         coin: {
-          type: DataTypes.ENUM(['BTC', 'ETH', 'USD', 'BRL']),
+          type: DataTypes.STRING(),
           allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'Esse campo não pode ser vazio!',
-            },
-          },
         },
         fullname: {
-          type: DataTypes.STRING,
+          type: DataTypes.STRING(),
           allowNull: false,
         },
         amount: {
           type: DataTypes.DOUBLE,
           allowNull: false,
-          validate: {
-            notEmpty: {
-              msg: 'Esse campo não pode ser vazio!',
-            },
-          },
         },
       },
       {
@@ -44,8 +28,11 @@ class Coins extends Model {
   // Associações
   static associate(models) {
     this.belongsTo(models.Wallet, {
-      foreignKey: 'coin_id',
-      as: 'coins',
+      foreignKey: 'wallet_address',
+    });
+    this.hasMany(models.Transactions, {
+      foreignKey: 'coin_address',
+      as: 'transactions',
     });
   }
 }
