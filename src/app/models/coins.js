@@ -32,6 +32,7 @@ class Coins extends Model {
     });
     this.hasMany(models.Transactions, {
       foreignKey: 'coin_address',
+      as: 'transactions',
     });
   }
 }

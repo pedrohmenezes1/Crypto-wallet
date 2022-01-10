@@ -7,7 +7,14 @@ routerWallet.get('/wallet', ControllerWallet.listWallet);
 
 routerWallet.post('/wallet', ControllerWallet.createWallet);
 
-routerWallet.put('/wallet/:address', ControllerWallet.addCoins);
+routerWallet.post('/wallet/:wallet_address/coin', ControllerWallet.createCoin);
+
+routerWallet.post(
+  '/wallet/:wallet_address/:coin_address/transaction',
+  ControllerWallet.createTransactions
+);
+
+/* routerWallet.put('/wallet/:address', ControllerWallet.addCoins); */
 
 routerWallet.get('/wallet/:address', ControllerWallet.listOneWallet);
 

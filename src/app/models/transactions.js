@@ -8,9 +8,17 @@ class Transactions extends Model {
           type: DataTypes.DOUBLE,
           allowNull: false,
         },
-        amount: {
-          type: DataTypes.DOUBLE,
-          allowNull: false,
+        send_to: {
+          type: DataTypes.CHAR(36),
+          defaultValue: {
+            references: { model: 'wallet', key: 'address' },
+          },
+        },
+        receive_from: {
+          type: DataTypes.CHAR(36),
+          defaultValue: {
+            references: { model: 'wallet', key: 'address' },
+          },
         },
       },
       {
@@ -24,16 +32,16 @@ class Transactions extends Model {
   // Associações
   static associate(models) {
     this.belongsTo(models.Coins, {
-      foreignKey: 'coins_address',
-      as: 'coinsAdresses',
+      foreignKey: 'coin_address',
     });
     this.belongsTo(models.Wallet, {
-      foreignKey: 'sendTo',
-      as: 'sendAdresses',
+      foreignKey: 'wallet_address',
     });
     this.belongsTo(models.Wallet, {
-      foreignKey: 'receiveFrom',
-      as: 'receiveAdresses',
+      foreignKey: 'send_to',
+    });
+    this.belongsTo(models.Wallet, {
+      foreignKey: 'receive_from',
     });
   }
 }

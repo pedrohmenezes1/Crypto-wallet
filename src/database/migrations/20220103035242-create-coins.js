@@ -8,30 +8,21 @@ module.exports = {
         primaryKey: true,
       },
       wallet_address: {
-        type: Sequelize.UUID,
+        type: Sequelize.CHAR(36),
         allowNull: false,
         references: { model: 'wallet', key: 'address' },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
       coin: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.CHAR(3),
       },
       fullname: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(20),
         allowNull: false,
       },
       amount: {
         type: Sequelize.DOUBLE,
-        allowNull: false,
-      },
-      created_at: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updated_at: {
-        type: Sequelize.DATE,
         allowNull: false,
       },
     }),

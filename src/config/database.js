@@ -5,6 +5,7 @@ module.exports = {
   password: 'admin',
   database: 'crypto-wallet',
   define: {
+    // Atualização automatica de colunas timestamps e datetime
     timestamps: true,
     // Converte tabelas e colulas camelCase para sublinhado
     underscored: true,

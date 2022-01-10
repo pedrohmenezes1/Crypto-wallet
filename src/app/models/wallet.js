@@ -5,14 +5,13 @@ class Wallet extends Model {
     super.init(
       {
         address: {
-          type: DataTypes.UUID,
+          type: DataTypes.CHAR(36),
           defaultValue: DataTypes.UUIDV1,
-          allowNull: false,
           primaryKey: true,
+          required: true,
         },
         name: {
           type: DataTypes.STRING,
-          allowNull: false,
           validate: {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
@@ -20,8 +19,7 @@ class Wallet extends Model {
           },
         },
         cpf: {
-          type: DataTypes.STRING,
-          allowNull: false,
+          type: DataTypes.CHAR(14),
           validate: {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
@@ -30,7 +28,6 @@ class Wallet extends Model {
         },
         birthdate: {
           type: DataTypes.STRING,
-          allowNull: false,
           validate: {
             notEmpty: {
               msg: 'Esse campo não pode ser vazio!',
@@ -50,11 +47,10 @@ class Wallet extends Model {
   static associate(models) {
     this.hasMany(models.Coins, {
       foreignKey: 'wallet_address',
-      as: 'coinsAddress',
+      as: 'coins',
     });
     this.hasMany(models.Transactions, {
       foreignKey: 'wallet_address',
-      as: 'transactionsAddress',
     });
   }
 }

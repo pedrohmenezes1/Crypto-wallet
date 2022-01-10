@@ -2,11 +2,11 @@
 /* eslint-disable prefer-const */
 import * as Yup from 'yup'; // Validação
 import moment from 'moment';
-import { axios } from 'axios';
 import { Op } from 'sequelize';
 import Wallet from '../models/wallet'; // Modelo carteira
 import Transactions from '../models/transactions';
 import Coins from '../models/coins';
+/* import { axios } from 'axios'; */
 
 /* let cotactions = BASE_URL(
   'https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,BTC-BRL'
@@ -16,9 +16,14 @@ cotactions = cotactions.json();
 let cotaction_euro = cotactions.EURBRL.bid; */
 /* let cotaction_bitcoinbr = cotactions.BTCBRL.bid; */
 
-const { data } = axios('https://economia.awesomeapi.com.br/last/BTC-BRL');
+/* const { data } = axios('https://economia.awesomeapi.com.br/last/BTC-BRL');
 const test = data.json();
-console.log(test);
+console.log(test); */
+
+/* const url = axios.get({
+  baseURL: 'https://economia.awesomeapi.com.br/last/',
+})
+ */
 
 class ControllerWallet {
   // Listar todos
@@ -68,9 +73,32 @@ class ControllerWallet {
     updated_at_end ? (where.updated_at[Op.lte] = updated_at_end) : null;
 
     try {
-      const wallet = await Wallet.findAll();
+      const wallet = await Wallet.findAll({
+        where,
+        include: [
+          {
+            model: Coins,
+            attributes: ['coin', 'fullname', 'amount'],
+            as: 'coins',
+            include: [
+              {
+                model: Transactions,
+                attributes: [
+                  'value',
+                  'datetime',
+                  'send_to',
+                  'receive_from',
+                  'current_cotation',
+                ],
+                as: 'transactions',
+              },
+            ],
+          },
+        ],
+      });
       return res.status(200).send({ wallet });
     } catch (erro) {
+      console.log(erro);
       return res
         .status(400)
         .send({ error: 'Erro ao carregar lista de carteiras ' });
@@ -79,7 +107,7 @@ class ControllerWallet {
 
   async createWallet(req, res) {
     const schema = Yup.object().shape({
-      name_req: Yup.string('Erro: Necessário preencher o campo nome!')
+      name: Yup.string('Erro: Necessário preencher o campo nome!')
         .required('Erro: Necessário preencher o campo nome!')
         .min(7, 'campo nome tem que ter mais de 7 caracteres'),
       cpf: Yup.string('Erro: Necessário preencher o campo cpf com números!')
@@ -122,14 +150,13 @@ class ControllerWallet {
     }
 
     try {
-      const { address, name_req, cpf, birthdate } = req.body;
+      const { name, cpf, birthdate } = req.body;
       const wallet = await Wallet.create({
-        address,
-        name_req,
+        name,
         cpf,
         birthdate,
       });
-      return res.status(201).send({ wallet });
+      return res.status(201).json({ wallet });
     } catch (error) {
       console.log(error);
       return res
@@ -148,6 +175,40 @@ class ControllerWallet {
     }
   }
 
+  async createCoin(req, res) {
+    const { wallet_address } = req.params;
+    const newCoin = { ...req.body, wallet_address };
+
+    try {
+      const coinss = await Coins.create(newCoin);
+      return res.status(200).send({ coinss });
+    } catch (erro) {
+      console.log(erro);
+      return res.status(404).send({ error: 'Erro ao listar uma carteira ' });
+    }
+  }
+
+  async createTransactions(req, res) {
+    const { wallet_address, coin_address } = req.params;
+    const { value } = req.body;
+
+    try {
+      const transactions = await Transactions.create(
+        { value },
+        {
+          where: {
+            wallet_address: String(wallet_address),
+            coin_address: String(coin_address),
+          },
+        }
+      );
+      return res.status(200).send({ transactions });
+    } catch (erro) {
+      console.log(erro);
+      return res.status(404).send({ error: 'Erro ao listar uma carteira ' });
+    }
+  }
+
   async deleteOneWallet(req, res) {
     const { address } = req.params;
     try {
@@ -159,7 +220,7 @@ class ControllerWallet {
     }
   }
 
-  async addCoins(req, res) {
+  /*  async addCoins(req, res) {
     const { address, wallet_address } = req.params;
     const getWallet = await Wallet.findByPk(address);
 
@@ -199,6 +260,6 @@ class ControllerWallet {
       console.log(erro);
       return res.status(404).send({ error: 'Erro ao adicionar coins' });
     }
-  }
+  } */
 }
 export default new ControllerWallet();
